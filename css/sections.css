@@ -1,0 +1,226 @@
+/* Hero Section */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 1;
+    object-fit: cover;
+}
+
+.hero-bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg, 
+        rgba(0, 0, 0, 0.4) 0%, 
+        rgba(237, 252, 14, 0.1) 50%, 
+        rgba(0, 0, 0, 0.6) 100%
+    );
+    z-index: 2;
+}
+
+.hero-content {
+    text-align: center;
+    color: #ffffff;
+    z-index: 3;
+    position: relative;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.hero-title {
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    animation: fadeInUp 1s ease-out;
+}
+
+.hero-subtitle {
+    font-size: 1.3rem;
+    margin-bottom: 40px;
+    opacity: 0.9;
+    animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+.hero-cta {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeInUp 1s ease-out 0.6s both;
+}
+
+/* About Section */
+.about {
+    padding: var(--section-padding);
+    background-color: var(--gray-light);
+    margin-bottom: 0;
+    position: relative;
+    z-index: 10;
+}
+
+.about-text {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+/* District Sections */
+.district-section {
+    position: relative;
+    padding: var(--section-padding);
+    margin: 0;
+}
+
+#district3 {
+    background-color: var(--gray-light);
+}
+
+#district8 {
+    background-color: var(--core-white);
+}
+
+.district-content {
+    position: relative;
+    text-align: center;
+    width: 100%;
+    color: var(--core-black);
+}
+
+.district-content .section-title {
+    color: var(--core-black);
+    margin-bottom: 40px;
+    font-weight: var(--font-weight-extrabold);
+    font-size: clamp(2rem, 4vw, 3rem);
+    position: relative;
+}
+
+.district-text {
+    max-width: 800px;
+    margin: 0 auto 40px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 4px solid var(--primary-color);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.district-text::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 11px;
+    z-index: 1;
+}
+
+.district-text p {
+    position: relative;
+    z-index: 2;
+}
+
+#district3 .district-text[data-lang="en"],
+#district3 .district-text[data-lang="ar"] {
+    background-image: url('3rd district test background.jpg');
+}
+
+#district8 .district-text[data-lang="en"],
+#district8 .district-text[data-lang="ar"] {
+    background-image: url('8th district background.jpg');
+}
+
+/* Gallery */
+.district-gallery {
+    margin-top: 40px;
+    direction: ltr !important;
+}
+
+.gallery-container {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    direction: ltr !important;
+}
+
+.gallery-slider {
+    display: flex;
+    transition: transform var(--transition-smooth);
+    direction: ltr !important;
+}
+
+.gallery-slide {
+    min-width: 100%;
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+}
+
+.gallery-prev, .gallery-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(237, 252, 14, 0.8);
+    color: var(--core-black);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gallery-prev {
+    left: 20px !important;
+    right: auto !important;
+}
+
+.gallery-next {
+    right: 20px !important;
+    left: auto !important;
+}
+
+.gallery-prev:hover, .gallery-next:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.video-link {
+    text-align: center;
+    margin-top: 30px;
+    position: relative;
+    z-index: 100;
+}

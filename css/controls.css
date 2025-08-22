@@ -1,0 +1,176 @@
+/* Navigation Controls */
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+}
+
+.theme-toggle, .lang-toggle {
+    background: none;
+    border: 2px solid transparent;
+    color: var(--core-black);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.control-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle, transparent 30%, rgba(237, 252, 14, 0.1) 70%);
+    border-radius: 50%;
+    opacity: 0;
+    transition: all var(--transition-smooth);
+    animation: controlPulse 4s ease-in-out infinite;
+}
+
+.theme-toggle:hover, .lang-toggle:hover {
+    border-color: var(--primary-color);
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 0 0 15px rgba(237, 252, 14, 0.4);
+}
+
+.theme-toggle:hover .control-bg, .lang-toggle:hover .control-bg {
+    opacity: 1;
+    animation-play-state: paused;
+}
+
+.theme-toggle:hover i, .lang-toggle:hover .lang-text {
+    color: var(--primary-color);
+    transform: scale(1.1);
+    text-shadow: 0 0 8px rgba(237, 252, 14, 0.5);
+}
+
+.lang-toggle {
+    font-weight: var(--font-weight-semibold);
+}
+
+.lang-toggle .lang-text {
+    position: relative;
+    z-index: 2;
+    transition: all var(--transition-smooth);
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    transition: all var(--transition-smooth);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.hamburger-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        transparent 30%, 
+        rgba(237, 252, 14, 0.1) 50%, 
+        transparent 70%);
+    opacity: 0;
+    transition: all var(--transition-smooth);
+    animation: hamburgerPulse 5s ease-in-out infinite;
+}
+
+.mobile-menu-toggle:hover {
+    transform: scale(1.1);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 12px rgba(237, 252, 14, 0.4);
+}
+
+.mobile-menu-toggle:hover .hamburger-bg {
+    opacity: 1;
+    animation-play-state: paused;
+}
+
+.mobile-menu-toggle span {
+    display: block;
+    width: 22px;
+    height: 3px;
+    background-color: var(--core-black);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    position: absolute;
+    border-radius: 2px;
+    box-shadow: 0 0 4px rgba(237, 252, 14, 0.3);
+    z-index: 2;
+}
+
+[data-theme="dark"] .mobile-menu-toggle span {
+    background-color: #ffffff;
+}
+
+[data-theme="dark"] .mobile-menu-toggle.active span:nth-child(1),
+[data-theme="dark"] .mobile-menu-toggle.active span:nth-child(3) {
+    background-color: var(--primary-color);
+}
+
+.mobile-menu-toggle span:nth-child(1) {
+    top: 8px;
+}
+
+.mobile-menu-toggle span:nth-child(2) {
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 1;
+}
+
+.mobile-menu-toggle span:nth-child(3) {
+    bottom: 8px;
+}
+
+/* Active state animations */
+.mobile-menu-toggle.active span:nth-child(1) {
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    background-color: var(--primary-color);
+    box-shadow: 0 0 8px rgba(237, 252, 14, 0.7);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+    transform: translateY(-50%) scale(0) rotate(180deg);
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+    bottom: 50%;
+    transform: translateY(50%) rotate(-45deg);
+    background-color: var(--primary-color);
+    box-shadow: 0 0 8px rgba(237, 252, 14, 0.7);
+}
+
+.mobile-menu-toggle.active {
+    transform: scale(1.15) rotate(180deg);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 20px rgba(237, 252, 14, 0.6);
+}
+
+.mobile-menu-toggle.active .hamburger-bg {
+    opacity: 1;
+    background: linear-gradient(45deg, 
+        rgba(237, 252, 14, 0.2) 0%, 
+        rgba(237, 252, 14, 0.1) 50%, 
+        rgba(237, 252, 14, 0.2) 100%);
+}

@@ -1,0 +1,38 @@
+/* Root Variables */
+:root {
+    /* Colors */
+    --primary-color: #edfc0e;
+    --primary-dark: #d4e30c;
+    --core-black: #010001;
+    --core-white: #ffffff;
+    --gray-light: #f5f5f5;
+    --gray-medium: #888888;
+    --gray-dark: #333333;
+    
+    /* Typography */
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+    
+    /* Spacing */
+    --container-max-width: 1200px;
+    --section-padding: 80px 0;
+    --header-height: 80px;
+    
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-smooth: 0.3s ease;
+    --transition-slow: 0.5s ease;
+}
+
+/* Dark Mode Variables */
+[data-theme="dark"] {
+    --core-white: #010001;
+    --core-black: #ffffff;
+    --gray-light: #1a1a1a;
+    --gray-medium: #cccccc;
+    --gray-dark: #e0e0e0;
+}

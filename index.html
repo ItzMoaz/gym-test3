@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volt Fitness - 6th October City</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="logo.jpg">
+    <link rel="shortcut icon" type="image/x-icon" href="logo.jpg">
+    <link rel="apple-touch-icon" href="logo.jpg">
+    <link rel="apple-touch-icon" sizes="72x72" href="logo.jpg">
+    <link rel="apple-touch-icon" sizes="114x114" href="logo.jpg">
+    <link rel="apple-touch-icon" sizes="180x180" href="logo.jpg">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/controls.css">
+    <link rel="stylesheet" href="css/sections.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/floating-icons.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="styles.css"> <!-- Keep existing styles for contact, footer, etc. -->
+    
+    <!-- OVERLAY NAVIGATION MENU SYSTEM -->
+    <style>
+    /* HAMBURGER ICON */
+    .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        position: relative;
+        z-index: 10001;
+        width: 44px;
+        height: 44px;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+    
+    .hamburger-icon {
+        position: relative;
+        width: 24px;
+        height: 18px;
+    }
+    
+    .bar {
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 3px;
+        background-color: var(--core-black);
+        border-radius: 2px;
+        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        left: 0;
+    }
+    
+    [data-theme="dark"] .bar {
+        background-color: #ffffff;
+    }
+    
+    .bar1 {
+        top: 0;
+    }
+    
+    .bar2 {
+        top: 7px;
+    }
+    
+    .bar3 {
+        top: 14px;
+    }
+    
+    /* HAMBURGER TO X ANIMATION */
+    .mobile-menu-toggle.active .bar1 {
+        transform: rotate(45deg) translate(5px, 5px);
+        background-color: #ffffff;
+    }
+    
+    .mobile-menu-toggle.active .bar2 {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    
+    .mobile-menu-toggle.active .bar3 {
+        transform: rotate(-45deg) translate(7px, -6px);
+        background-color: #ffffff;
+    }
+    
+    /* FULL SCREEN OVERLAY MENU */
+    .overlay-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: linear-gradient(135deg, 
+            rgba(0, 0, 0, 0.98) 0%, 
+            rgba(26, 26, 26, 0.95) 50%,
+            rgba(0, 0, 0, 0.98) 100%);
+        backdrop-filter: blur(20px);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        transform: scale(0.8);
+    }
+    
+    .overlay-nav.active {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+    }
+    
+    /* ANIMATED BACKGROUND PATTERN */
+    .overlay-nav::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            radial-gradient(circle at 20% 20%, rgba(237, 252, 14, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(237, 252, 14, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 40% 60%, rgba(255, 100, 100, 0.05) 0%, transparent 50%);
+        animation: overlayPulse 8s ease-in-out infinite;
+        z-index: -1;
+    }
+    
+    @keyframes overlayPulse {
+        0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.3; }
+        50% { transform: scale(1.1) rotate(2deg); opacity: 0.6; }
+    }
+    
+    /* NAVIGATION ITEMS */
+    .overlay-nav-items {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+    
+    .overlay-nav-item {
+        margin: 20px 0;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    .overlay-nav.active .overlay-nav-item {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .overlay-nav.active .overlay-nav-item:nth-child(1) { transition-delay: 0.1s; }
+    .overlay-nav.active .overlay-nav-item:nth-child(2) { transition-delay: 0.2s; }
+    .overlay-nav.active .overlay-nav-item:nth-child(3) { transition-delay: 0.3s; }
+    .overlay-nav.active .overlay-nav-item:nth-child(4) { transition-delay: 0.4s; }
+    .overlay-nav.active .overlay-nav-item:nth-child(5) { transition-delay: 0.5s; }
+    
+    .overlay-nav-link {
+        display: inline-block;
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 2.5rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        padding: 15px 30px;
+        border: 2px solid transparent;
+        border-radius: 15px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+    }
+    
+    .overlay-nav-link::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(237, 252, 14, 0.3) 50%, 
+            transparent 100%);
+        transition: left 0.6s ease;
+        z-index: 0;
+    }
+    
+    .overlay-nav-link span {
+        position: relative;
+        z-index: 2;
+        display: inline-block;
+        transition: all 0.4s ease;
+    }
+    
+    .overlay-nav-link:hover {
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+        transform: scale(1.05) translateY(-5px);
+        box-shadow: 0 10px 30px rgba(237, 252, 14, 0.4);
+        text-shadow: 0 0 20px rgba(237, 252, 14, 0.6);
+    }
+    
+    .overlay-nav-link:hover::before {
+        left: 100%;
+    }
+    
+    .overlay-nav-link:hover span {
+        transform: scale(1.1);
+    }
+    
+    /* CLOSE BUTTON */
+    .overlay-close {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        background: none;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: #ffffff;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+    }
+    
+    .overlay-close:hover {
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+        transform: rotate(90deg) scale(1.1);
+        box-shadow: 0 5px 15px rgba(237, 252, 14, 0.3);
+    }
+    
+    /* MOBILE STYLES */
+    @media (max-width: 768px) {
+        .mobile-menu-toggle {
+            display: flex !important;
+        }
+        
+        .nav-menu {
+            display: none !important; /* Hide original menu */
+        }
+        
+        .overlay-nav-link {
+            font-size: 2rem;
+            margin: 10px 0;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .overlay-nav-link {
+            font-size: 1.5rem;
+            padding: 12px 20px;
+        }
+    }
+    </style>
+    
+    <!-- External Resources -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header / Navigation -->
+    <header id="header" class="header">
+        <div class="header-bg-pattern"></div>
+        <div class="header-angular-cuts">
+            <div class="angular-cut angular-cut-left"></div>
+            <div class="angular-cut angular-cut-right"></div>
+        </div>
+        <div class="header-side-cuts">
+            <div class="side-cut side-cut-left"></div>
+            <div class="side-cut side-cut-right"></div>
+        </div>
+        <nav class="nav-container">
+            <div class="nav-logo">
+                <a href="#hero" class="logo-link">
+                    <div class="logo-container">
+                        <img src="logo.jpg" alt="Volt Fitness Logo" class="logo">
+                        <div class="logo-glow"></div>
+                    </div>
+                </a>
+            </div>
+            <div class="current-section-display" id="current-section-display">
+                <div class="section-badge">
+                    <span class="section-name" id="section-name" data-en="Welcome" data-ar="مرحبا">Welcome</span>
+                </div>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#about" data-en="About Us" data-ar="من نحن"><span>About Us</span></a></li>
+                <li><a href="#district3" data-en="3rd District Gym" data-ar="جيم الحي الثالث"><span>3rd District Gym</span></a></li>
+                <li><a href="#district8" data-en="8th District Gym" data-ar="جيم الحي الثامن"><span>8th District Gym</span></a></li>
+                <li><a href="#contact" data-en="Contact" data-ar="تواصل معنا"><span>Contact</span></a></li>
+            </ul>
+            <div class="nav-controls">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <div class="control-bg"></div>
+                    <i class="fas fa-moon" id="theme-icon"></i>
+                </button>
+                <button class="lang-toggle" id="lang-toggle">
+                    <div class="control-bg"></div>
+                    <span class="lang-text">AR</span>
+                </button>
+                <button class="mobile-menu-toggle" id="mobile-toggle" aria-label="Toggle mobile menu">
+                    <div class="hamburger-icon">
+                        <span class="bar bar1"></span>
+                        <span class="bar bar2"></span>
+                        <span class="bar bar3"></span>
+                    </div>
+                </button>
+            </div>
+        </nav>
+        <div class="header-bottom-cut"></div>
+    </header>
+
+    <!-- OVERLAY NAVIGATION MENU -->
+    <div class="overlay-nav" id="overlay-nav">
+        <button class="overlay-close" id="overlay-close">
+            <i class="fas fa-times"></i>
+        </button>
+        <ul class="overlay-nav-items">
+            <li class="overlay-nav-item">
+                <a href="#about" class="overlay-nav-link" data-en="About Us" data-ar="من نحن">
+                    <span>About Us</span>
+                </a>
+            </li>
+            <li class="overlay-nav-item">
+                <a href="#district3" class="overlay-nav-link" data-en="3rd District Gym" data-ar="جيم الحي الثالث">
+                    <span>3rd District</span>
+                </a>
+            </li>
+            <li class="overlay-nav-item">
+                <a href="#district8" class="overlay-nav-link" data-en="8th District Gym" data-ar="جيم الحي الثامن">
+                    <span>8th District</span>
+                </a>
+            </li>
+            <li class="overlay-nav-item">
+                <a href="#contact" class="overlay-nav-link" data-en="Contact" data-ar="تواصل معنا">
+                    <span>Contact</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero">
+            <video class="hero-video" autoplay muted loop playsinline>
+                <source src="audiocleaner_20250821_152514_file.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="hero-bg-overlay"></div>
+            <div class="hero-content">
+                <h1 class="hero-title" data-en="Transform Your Body, Elevate Your Mind" data-ar="حول جسدك، ارفع عقلك">Transform Your Body, Elevate Your Mind</h1>
+                <p class="hero-subtitle" data-en="Your natural fitness destination" data-ar="وجهتك الطبيعية للياقة البدنية">Your natural fitness destination</p>
+                <div class="hero-cta">
+                    <a href="#contact" class="btn btn-primary" data-en="Join Now" data-ar="انضم الآن">Join Now</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="about" class="about">
+            <div class="container">
+                <h2 class="section-title" data-en="About Us" data-ar="من نحن">About Us</h2>
+                <div class="about-content">
+                    <div class="about-text" data-lang="en">
+                        <p>Volt Fitness gym in 6th October City is a unique experience of training and body shaping. Our mission is to provide a healthy modern atmosphere for fitness workout and strength training, with special emphasis on trainee guidance and support. All body muscle machines and equipment are scientifically approved and safe. Trainers and coaches are ISSA and NASM certified. We provide classes and private sessions for ladies, and our personal training services are truly unique. Membership packages are scalable and flexible to accommodate all your needs. The gym always maintains clean floors, fresh air, and positive energy, with no overcrowding or sound harassment. With a high benefit-to-cost ratio, Volt Fitness guarantees customer satisfaction as our top priority.</p>
+                    </div>
+                    <div class="about-text" data-lang="ar" style="display: none;">
+                        <p>يقدم جيم فولت في مدينة 6 أكتوبر تجربة فريدة في التدريب وتشكيل الجسم. رسالتنا هي توفير بيئة صحية وعصرية لممارسة التمارين الرياضية وتدريبات القوة، مع تركيز خاص على توجيه ودعم المتدربين. جميع أجهزة تدريب العضلات والمعدات لدينا معتمدة علمياً وآمنة. المدربون والكوتشز حاصلون على شهادات ISSA و NASM. نوفر حصصاً وجلسات خاصة للسيدات، وخدمات التدريب الشخصي لدينا مميزة وفريدة. باقات الاشتراك مرنة ومتنوعة لتناسب جميع احتياجاتك. نحرص دائماً على أن تكون الأرضيات نظيفة، والأجواء منعشة برائحة طيبة، مليئة بالطاقة الإيجابية، دون ازدحام أو إزعاج. بفضل النسبة العالية بين الفوائد والتكلفة، يضمن فولت فيتنس رضا العملاء كأولوية قصوى.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3rd District Gym Section -->
+        <section id="district3" class="district-section">
+            <div class="container">
+                <h2 class="section-title" data-en="3rd District Gym" data-ar="جيم الحي الثالث">3rd District Gym</h2>
+                <div class="district-content">
+                    <div class="district-text" data-lang="en">
+                        <p>The 3rd District branch stands out with a professional CrossFit hall, fully equipped with all CrossFit training essentials including free racks, multiple pull-up bars, kettlebells, medicine balls, plyo boxes, ropes, and more. CrossFit is highly popular for its ability to improve both fitness and strength, while creating a unique atmosphere of competition and challenge. Practicing CrossFit requires attending classes and personal training sessions to ensure safe performance and maximize results. This branch also features a free weights hall, a hall with essential strength machines, and modern cardio equipment.</p>
+                    </div>
+                    <div class="district-text" data-lang="ar" style="display: none;">
+                        <p>تميز فرع الحي الثالث بوجود قاعة كروسفيت احترافية تحتوي على جميع معدات وتجهيزات رياضة الكروسفيت مثل الراكات الحرة، العُقل المتعددة، الكاتلبيلز، كرات التدريب، صناديق القفز، والحبال وغيرها. تتمتع رياضة الكروسفيت بشعبية واسعة لقدرتها على رفع اللياقة والقوة معاً، بجانب أجواء المنافسة والتحديات المميزة. تتطلب ممارسة الكروسفيت حضور حصص ودروس تدريب شخصي لضمان الأداء الآمن ورفع مستوى اللياقة. كما يحتوي الفرع على قاعة للأوزان الحرة، وقاعة لأجهزة العضلات الأساسية، بالإضافة إلى أجهزة الكارديو.</p>
+                    </div>
+                    <div class="district-gallery">
+                        <div class="gallery-container">
+                            <div class="gallery-slider" id="district3-slider">
+                                <!-- Images will be dynamically loaded -->
+                            </div>
+                            <button class="gallery-prev" onclick="prevSlide('district3')">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="gallery-next" onclick="nextSlide('district3')">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <div class="video-link">
+                            <a href="https://www.youtube.com/watch?v=_N_2QPpTLfs" target="_blank" class="btn btn-video">
+                                <i class="fab fa-youtube"></i>
+                                <span data-en="Watch on YouTube" data-ar="شاهد على يوتيوب">Watch on YouTube</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8th District Gym Section -->
+        <section id="district8" class="district-section">
+            <div class="container">
+                <h2 class="section-title" data-en="8th District Gym" data-ar="جيم الحي الثامن">8th District Gym</h2>
+                <div class="district-content">
+                    <div class="district-text" data-lang="en">
+                        <p>The 8th District branch stands out with professional equipment from Hoist USA, known for its high efficiency in movement mechanics, muscle targeting, and safety. The gym also features spacious halls, modern design, and a wide variety of machines covering every angle and detail of the body's muscles, along with a stunning natural view. It also includes 2 tons of free weights and advanced American cardio & fitness machines.</p>
+                    </div>
+                    <div class="district-text" data-lang="ar" style="display: none;">
+                        <p>تميز فرع الحي الثامن بأجهزة المحترفين من براند هوست الأمريكي المعروف بكفاءته العالية في ميكانيكية الحركة والاستهداف العضلي والأمان. كما يتميز الفرع بالمساحة الواسعة والتصميم العصري والتنوع المتميز للأجهزة ليغطي جميع زوايا وتفاصيل عضلات الجسم، بالإضافة إلى الإطلالة الطبيعية الخلابة. كما يحتوي الفرع على ٢ طن من الأوزان الحرة، وأجهزة الكارديو واللياقة الأمريكية.</p>
+                    </div>
+                    <div class="district-gallery">
+                        <div class="gallery-container">
+                            <div class="gallery-slider" id="district8-slider">
+                                <!-- Images will be dynamically loaded -->
+                            </div>
+                            <button class="gallery-prev" onclick="prevSlide('district8')">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="gallery-next" onclick="nextSlide('district8')">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <div class="video-link">
+                            <a href="https://www.youtube.com/watch?v=AOWsk2EhGuM&t=3s" target="_blank" class="btn btn-video">
+                                <i class="fab fa-youtube"></i>
+                                <span data-en="Watch on YouTube" data-ar="شاهد على يوتيوب">Watch on YouTube</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2 class="section-title" data-en="Contact Us" data-ar="تواصل معنا">Contact Us</h2>
+                <div class="contact-content">
+                    <div class="contact-form-container">
+                        <form class="contact-form" id="contact-form">
+                            <div class="form-group">
+                                <input type="text" id="name" name="name" placeholder="Your Name" data-en-placeholder="Your Name" data-ar-placeholder="اسمك" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" id="phone" name="phone" placeholder="Phone Number" data-en-placeholder="Phone Number" data-ar-placeholder="رقم الهاتف" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="email" name="email" placeholder="Email Address" data-en-placeholder="Email Address" data-ar-placeholder="البريد الإلكتروني" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea id="message" name="message" rows="5" placeholder="Your Message" data-en-placeholder="Your Message" data-ar-placeholder="رسالتك" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" data-en="Send Message" data-ar="إرسال الرسالة">Send Message</button>
+                        </form>
+                    </div>
+                    <div class="contact-info">
+                        <div class="contact-branches">
+                            <div class="branch-contact">
+                                <h3 data-en="3rd District Branch" data-ar="فرع الحي الثالث">3rd District Branch</h3>
+                                <div class="contact-method">
+                                    <i class="fas fa-phone"></i>
+                                    <a href="tel:+20238373081">023 837 3081</a>
+                                </div>
+                                <div class="contact-method">
+                                    <i class="fab fa-whatsapp"></i>
+                                    <a href="https://wa.me/+201202215002">WhatsApp</a>
+                                </div>
+                                <div class="contact-method">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <a href="https://maps.app.goo.gl/oZkYnV2kcLrs4e238" target="_blank" data-en="6th October City, 3rd District" data-ar="مدينة 6 أكتوبر، الحي الثالث">6th October City, 3rd District</a>
+                                </div>
+                            </div>
+                            <div class="branch-contact">
+                                <h3 data-en="8th District Branch" data-ar="فرع الحي الثامن">8th District Branch</h3>
+                                <div class="contact-method">
+                                    <i class="fas fa-phone"></i>
+                                    <a href="tel:+20238374448">023 837 4448</a>
+                                </div>
+                                <div class="contact-method">
+                                    <i class="fab fa-whatsapp"></i>
+                                    <a href="https://wa.me/+201004095097">WhatsApp</a>
+                                </div>
+                                <div class="contact-method">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <a href="https://maps.app.goo.gl/5WdbbTMP45R5Myur5" target="_blank" data-en="6th October City, 8th District" data-ar="مدينة 6 أكتوبر، الحي الثامن">6th October City, 8th District</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="social-links">
+                            <a href="https://www.facebook.com/voltfitnessgym1" target="_blank"><i class="fab fa-facebook"></i></a>
+                            <a href="https://www.instagram.com/voltfitnessgym?igsh=MTB4Mzk5ZW02NzZsbg==" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.tiktok.com/@volt.fitness.gym?_t=ZS-8z3vazZfgEq&_r=1" target="_blank"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="#about" data-en="About Us" data-ar="من نحن">About Us</a>
+                    <a href="#district3" data-en="3rd District" data-ar="الحي الثالث">3rd District</a>
+                    <a href="#district8" data-en="8th District" data-ar="الحي الثامن">8th District</a>
+                    <a href="#contact" data-en="Contact" data-ar="تواصل معنا">Contact</a>
+                </div>
+                <div class="footer-text">
+                    <p>&copy; 2025 Volt Fitness</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/+201202215002" target="_blank" class="whatsapp-float" aria-label="Contact us on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Floating Gym Icons -->
+    <div class="floating-icons">
+        <div class="floating-icon icon-1" data-delay="0s">
+            <i class="fas fa-dumbbell"></i>
+        </div>
+        <div class="floating-icon icon-2" data-delay="1s">
+            <i class="fas fa-running"></i>
+        </div>
+        <div class="floating-icon icon-3" data-delay="2s">
+            <i class="fas fa-heart-pulse"></i>
+        </div>
+        <div class="floating-icon icon-4" data-delay="0.5s">
+            <i class="fas fa-weight-hanging"></i>
+        </div>
+        <div class="floating-icon icon-5" data-delay="1.5s">
+            <i class="fas fa-stopwatch"></i>
+        </div>
+        <div class="floating-icon icon-6" data-delay="2.5s">
+            <i class="fas fa-fire-flame-curved"></i>
+        </div>
+        <div class="floating-icon icon-7" data-delay="0.8s">
+            <i class="fas fa-medal"></i>
+        </div>
+        <div class="floating-icon icon-8" data-delay="1.8s">
+            <i class="fas fa-bicycle"></i>
+        </div>
+        <div class="floating-icon icon-9" data-delay="0.3s">
+            <i class="fas fa-water-ladder"></i>
+        </div>
+        <div class="floating-icon icon-10" data-delay="2.2s">
+            <i class="fas fa-person-walking"></i>
+        </div>
+        <div class="floating-icon icon-11" data-delay="1.2s">
+            <i class="fas fa-apple-whole"></i>
+        </div>
+        <div class="floating-icon icon-12" data-delay="2.8s">
+            <i class="fas fa-trophy"></i>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script type="module" src="js/main.js"></script>
+    <script src="script.js"></script> <!-- Keep existing script for galleries and other functionality -->
+    
+    <!-- WORKING Mobile Menu & Theme Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Setting up mobile menu and theme...');
+            
+            // SIMPLE HAMBURGER MENU - REBUILT FROM SCRATCH
+            console.log('🍔 Setting up hamburger menu...');
+            
+            const hamburger = document.getElementById('mobile-toggle');
+            const menu = document.getElementById('nav-menu');
+            
+            console.log('Hamburger button:', hamburger);
+            console.log('Navigation menu:', menu);
+            
+            if (hamburger && menu) {
+                console.log('✅ Both elements found!');
+                
+                // Click handler for hamburger
+                hamburger.addEventListener('click', function() {
+                    console.log('🍔 HAMBURGER CLICKED!');
+                    
+                    // Toggle active class on both elements
+                    hamburger.classList.toggle('active');
+                    menu.classList.toggle('active');
+                    
+                    const isOpen = menu.classList.contains('active');
+                    console.log('Menu is now:', isOpen ? '📂 OPEN' : '📁 CLOSED');
+                    
+                    if (isOpen) {
+                        console.log('Menu items:', menu.querySelectorAll('li').length);
+                    }
+                });
+                
+                // Close menu when clicking nav links
+                const navLinks = menu.querySelectorAll('a');
+                console.log('Found', navLinks.length, 'navigation links');
+                
+                navLinks.forEach((link, index) => {
+                    link.addEventListener('click', function() {
+                        console.log('📱 Link', index + 1, 'clicked - closing menu');
+                        hamburger.classList.remove('active');
+                        menu.classList.remove('active');
+                    });
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!hamburger.contains(e.target) && !menu.contains(e.target)) {
+                        if (menu.classList.contains('active')) {
+                            console.log('👆 Clicked outside - closing menu');
+                            hamburger.classList.remove('active');
+                            menu.classList.remove('active');
+                        }
+                    }
+                });
+                
+                console.log('🎉 Hamburger menu setup complete!');
+            } else {
+                console.error('❌ Hamburger elements not found!');
+                console.log('Available elements:', document.querySelectorAll('[id]'));
+            }
+            
+            // Theme toggle is handled by the modular ThemeManager in js/theme.js
+            
+            console.log('Setup complete!');
+            
+            // FLOATING ICONS DYNAMIC EFFECTS
+            const floatingIcons = document.querySelectorAll('.floating-icon');
+            const sectionIcons = document.querySelectorAll('.section-icon');
+            
+            // Add random delays based on data-delay attribute
+            floatingIcons.forEach(icon => {
+                const delay = icon.getAttribute('data-delay');
+                if (delay) {
+                    icon.style.animationDelay = delay;
+                }
+            });
+            
+            // Add subtle hover effects to sections
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                section.addEventListener('mouseenter', function() {
+                    floatingIcons.forEach(icon => {
+                        icon.style.animationPlayState = 'paused';
+                        icon.style.transform += ' scale(1.05)';
+                        icon.style.opacity = '0.5';
+                    });
+                });
+                
+                section.addEventListener('mouseleave', function() {
+                    floatingIcons.forEach(icon => {
+                        icon.style.animationPlayState = 'running';
+                        icon.style.transform = '';
+                        icon.style.opacity = '0.4';
+                    });
+                });
+            });
+            
+            // Create additional random icons periodically
+            const gymIcons = [
+                'fas fa-dumbbell',
+                'fas fa-running', 
+                'fas fa-heart-pulse',
+                'fas fa-weight-hanging',
+                'fas fa-stopwatch',
+                'fas fa-fire-flame-curved',
+                'fas fa-medal',
+                'fas fa-bicycle',
+                'fas fa-trophy',
+                'fas fa-fist-raised'
+            ];
+            
+            setInterval(() => {
+                if (document.querySelectorAll('.floating-icon').length < 15) {
+                    const newIcon = document.createElement('div');
+                    newIcon.className = 'floating-icon';
+                    newIcon.style.top = Math.random() * 80 + 10 + '%';
+                    newIcon.style.left = '-50px';
+                    newIcon.style.fontSize = (Math.random() * 0.6 + 0.8) + 'rem';
+                    newIcon.style.color = `rgba(${Math.random() * 100 + 155}, ${Math.random() * 100 + 155}, 14, 0.25)`;
+                    newIcon.style.opacity = '0.3';
+                    newIcon.style.zIndex = '-1';
+                    newIcon.innerHTML = `<i class="${gymIcons[Math.floor(Math.random() * gymIcons.length)]}"></i>`;
+                    
+                    document.querySelector('.floating-icons').appendChild(newIcon);
+                    
+                    // Remove icon after animation
+                    setTimeout(() => {
+                        if (newIcon.parentNode) {
+                            newIcon.parentNode.removeChild(newIcon);
+                        }
+                    }, 20000);
+                }
+            }, 8000); // Add new icon every 8 seconds
+            
+            console.log('Floating icons initialized!');
+            
+            // OVERLAY NAVIGATION MENU FUNCTIONALITY
+            const mobileToggle = document.getElementById('mobile-toggle');
+            const overlayNav = document.getElementById('overlay-nav');
+            const overlayClose = document.getElementById('overlay-close');
+            
+            console.log('Mobile toggle found:', !!mobileToggle);
+            console.log('Overlay nav found:', !!overlayNav);
+            
+            function openOverlay() {
+                overlayNav.classList.add('active');
+                mobileToggle.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                console.log('Overlay menu opened!');
+            }
+            
+            function closeOverlay() {
+                overlayNav.classList.remove('active');
+                mobileToggle.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
+                console.log('Overlay menu closed!');
+            }
+            
+            // Open overlay when hamburger is clicked
+            if (mobileToggle && overlayNav) {
+                mobileToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    console.log('Hamburger clicked!');
+                    
+                    if (overlayNav.classList.contains('active')) {
+                        closeOverlay();
+                    } else {
+                        openOverlay();
+                    }
+                });
+                
+                console.log('Overlay navigation setup complete!');
+            }
+            
+            // Close overlay when close button is clicked
+            if (overlayClose) {
+                overlayClose.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    closeOverlay();
+                });
+            }
+            
+            // Close overlay when navigation links are clicked
+            const overlayLinks = overlayNav.querySelectorAll('.overlay-nav-link');
+            overlayLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    setTimeout(() => {
+                        closeOverlay();
+                    }, 300); // Small delay for smooth transition
+                });
+            });
+            
+            // Close overlay when clicking outside (on overlay background)
+            overlayNav.addEventListener('click', function(e) {
+                if (e.target === overlayNav) {
+                    closeOverlay();
+                }
+            });
+            
+            // Close overlay with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && overlayNav.classList.contains('active')) {
+                    closeOverlay();
+                }
+            });
+        });
+    </script>
+    <!-- Additional Floating Icons for Sections -->
+    <div class="section-icons">
+        <div class="section-icon crossfit-icon">
+            <i class="fas fa-fist-raised"></i>
+        </div>
+        <div class="section-icon strength-icon">
+            <i class="fas fa-hand-rock"></i>
+        </div>
+        <div class="section-icon cardio-icon">
+            <i class="fas fa-heartbeat"></i>
+        </div>
+    </div>
+
+</body>
+</html>
